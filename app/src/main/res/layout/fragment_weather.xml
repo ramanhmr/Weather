@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="weatherViewModel"
+            type="com.ramanhmr.weather.data.viewmodels.WeatherViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/tv_weather_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@{@string/update_time(weatherViewModel.updateTime)}"
+            android:textSize="@dimen/text_small"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/update_time" />
+
+        <TextView
+            android:id="@+id/tv_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:drawableStartCompat="@drawable/ic_location"
+            android:gravity="center"
+            android:text="@{weatherViewModel.city}"
+            android:textColor="@color/blue_dark"
+            android:textSize="@dimen/text_medium"
+            app:drawableTint="@color/blue_dark"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_weather_time"
+            tools:text="Minsk" />
+
+        <ImageView
+            android:id="@+id/iv_icon"
+            android:layout_width="@dimen/icon_large"
+            android:layout_height="@dimen/icon_large"
+            android:scaleType="centerInside"
+            app:imageResource="@{weatherViewModel.currentIconId}"
+            app:layout_constraintEnd_toStartOf="@id/tv_max_temp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_location"
+            tools:src="@drawable/ic_scattered_clouds" />
+
+        <TextView
+            android:id="@+id/tv_max_temp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{weatherViewModel.currentTemperature}"
+            android:textSize="@dimen/text_large"
+            app:layout_constraintBottom_toBottomOf="@id/iv_icon"
+            app:layout_constraintEnd_toStartOf="@id/tv_humidity"
+            app:layout_constraintStart_toEndOf="@id/iv_icon"
+            app:layout_constraintTop_toTopOf="@id/iv_icon"
+            tools:text="+10 C" />
+
+        <TextView
+            android:id="@+id/tv_humidity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:drawableStartCompat="@drawable/ic_drop"
+            android:text="@{weatherViewModel.currentHumidity}"
+            android:textSize="@dimen/text_large"
+            app:drawableTint="@color/blue"
+            app:layout_constraintBottom_toBottomOf="@id/iv_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv_max_temp"
+            app:layout_constraintTop_toTopOf="@id/iv_icon"
+            tools:text="25 %" />
+
+        <View
+            android:id="@+id/barrier"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/blue"
+            app:layout_constraintTop_toBottomOf="@id/iv_icon" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_forecast_list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/barrier"
+            tools:listitem="@layout/item_forecast_weather" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Weather</string>
+    <string name="update_time">Update time: %s</string>
+    <string name="day_time">EEEE, dd.MM - hh:mm</string>
 </resources>
