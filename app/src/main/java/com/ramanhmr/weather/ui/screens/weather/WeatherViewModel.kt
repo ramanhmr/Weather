@@ -82,12 +82,12 @@ class WeatherViewModel(
 
     fun checkIsFavourite(actionTrue: () -> Unit, actionFalse: () -> Unit) {
         viewModelScope.launch {
-            if (currentWeather.value != null) {
+            if (forecastWeather.value != null) {
                 val result = async(Dispatchers.IO) {
                     cityItemSource.hasCity(
                         City(
-                            currentWeather.value!!.city,
-                            currentWeather.value!!.countryCode
+                            forecastWeather.value!![0].city,
+                            forecastWeather.value!![0].countryCode
                         )
                     )
                 }

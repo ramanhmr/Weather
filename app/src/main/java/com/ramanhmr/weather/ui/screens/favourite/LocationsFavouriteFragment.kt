@@ -85,14 +85,17 @@ class LocationsFavouriteFragment : Fragment() {
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED
         ) {
-            locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
-                ?.let { location ->
-                    toWeather(
-                        location.latitude.toFloat(),
-                        location.longitude.toFloat()
-                    )
-                }
-
+            if ((requireActivity() as? MainActivity)?.hasInternet() == true) {
+                locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+                    ?.let { location ->
+                        toWeather(
+                            location.latitude.toFloat(),
+                            location.longitude.toFloat()
+                        )
+                    }
+            } else {
+                Toast.makeText(context, "No Internet connection", Toast.LENGTH_SHORT).show()
+            }
         } else {
             (requireActivity() as? MainActivity)?.requestLocationPermission()
         }
