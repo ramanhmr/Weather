@@ -20,8 +20,8 @@ data class WeatherCurrentResponseEntity(
     @SerializedName("cod") val cod: Int
 ) {
     data class Coord(
-        @SerializedName("lon") val lon: Double,
-        @SerializedName("lat") val lat: Double
+        @SerializedName("lon") val lon: Float,
+        @SerializedName("lat") val lat: Float
     )
 
     data class EntityWeather(

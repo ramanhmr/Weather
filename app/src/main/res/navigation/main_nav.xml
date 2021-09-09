@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/favouriteLocations">
+
+    <fragment
+        android:id="@+id/favouriteLocations"
+        android:name="com.ramanhmr.weather.ui.screens.favourite.LocationsFavouriteFragment"
+        tools:layout="@layout/fragment_locations_favourite">
+
+        <action
+            android:id="@+id/toWeatherByName"
+            app:destination="@id/weather"
+            app:enterAnim="@anim/slide_in_top"
+            app:exitAnim="@anim/slide_out_bottom"
+            app:popEnterAnim="@anim/slide_in_bottom"
+            app:popExitAnim="@anim/slide_out_top">
+            <argument
+                android:name="cityName"
+                app:argType="string" />
+            <argument
+                android:name="actionType"
+                app:argType="integer"
+                android:defaultValue="1" />
+        </action>
+
+        <action
+            android:id="@+id/toWeatherByCoord"
+            app:destination="@id/weather"
+            app:enterAnim="@anim/slide_in_top"
+            app:exitAnim="@anim/slide_out_bottom"
+            app:popEnterAnim="@anim/slide_in_bottom"
+            app:popExitAnim="@anim/slide_out_top">
+            <argument
+                android:name="lat"
+                app:argType="float" />
+            <argument
+                android:name="lon"
+                app:argType="float" />
+            <argument
+                android:name="actionType"
+                app:argType="integer"
+                android:defaultValue="2" />
+        </action>
+        <action
+            android:id="@+id/action_favouriteLocations_to_weather"
+            app:destination="@id/weather" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/weather"
+        android:name="com.ramanhmr.weather.ui.screens.weather.WeatherFragment"
+        tools:layout="@layout/fragment_weather">
+        <argument
+            android:name="actionType"
+            app:argType="integer"
+            android:defaultValue="0" />
+        <argument
+            android:name="cityName"
+            app:argType="string"
+            android:defaultValue="" />
+        <argument
+            android:name="lat"
+            app:argType="float"
+            android:defaultValue="1000" />
+        <argument
+            android:name="lon"
+            app:argType="float"
+            android:defaultValue="1000" />
+
+        <action
+            android:id="@+id/toLocationsFavourite"
+            app:destination="@id/favouriteLocations"
+            app:enterAnim="@anim/slide_in_bottom"
+            app:exitAnim="@anim/slide_out_top"
+            app:popEnterAnim="@anim/slide_in_top"
+            app:popExitAnim="@anim/slide_out_bottom"
+            app:popUpTo="@id/favouriteLocations"
+            app:popUpToInclusive="true" />
+    </fragment>
+</navigation>

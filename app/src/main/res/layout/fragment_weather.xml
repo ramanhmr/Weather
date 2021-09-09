@@ -7,7 +7,7 @@
 
         <variable
             name="weatherViewModel"
-            type="com.ramanhmr.weather.data.viewmodels.WeatherViewModel" />
+            type="com.ramanhmr.weather.ui.screens.weather.WeatherViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -16,28 +16,40 @@
         android:padding="16dp">
 
         <TextView
-            android:id="@+id/tv_weather_time"
+            android:id="@+id/tv_update_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
+            android:gravity="end"
             android:text="@{@string/update_time(weatherViewModel.updateTime)}"
             android:textSize="@dimen/text_small"
             app:layout_constraintTop_toTopOf="parent"
+            app:drawableRightCompat="@drawable/ic_update"
             tools:text="@string/update_time" />
+
+        <ImageView
+            android:id="@+id/iv_favourite"
+            android:layout_width="@dimen/icon_medium"
+            android:layout_height="@dimen/icon_medium"
+            app:tint="@color/gold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintTop_toBottomOf="@id/tv_update_time"
+            app:layout_constraintEnd_toStartOf="@id/tv_location"
+            android:layout_marginEnd="16dp"
+            tools:src="@drawable/ic_favorite_true" />
 
         <TextView
             android:id="@+id/tv_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:drawableStartCompat="@drawable/ic_location"
             android:gravity="center"
             android:text="@{weatherViewModel.city}"
             android:textColor="@color/blue_dark"
             android:textSize="@dimen/text_medium"
-            app:drawableTint="@color/blue_dark"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_weather_time"
+            app:layout_constraintStart_toEndOf="@id/iv_favourite"
+            app:layout_constraintTop_toTopOf="@id/iv_favourite"
+            app:layout_constraintBottom_toBottomOf="@id/iv_favourite"
             tools:text="Minsk" />
 
         <ImageView
@@ -46,13 +58,13 @@
             android:layout_height="@dimen/icon_large"
             android:scaleType="centerInside"
             app:imageResource="@{weatherViewModel.currentIconId}"
-            app:layout_constraintEnd_toStartOf="@id/tv_max_temp"
+            app:layout_constraintEnd_toStartOf="@id/tv_temp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_location"
+            app:layout_constraintTop_toBottomOf="@id/iv_favourite"
             tools:src="@drawable/ic_scattered_clouds" />
 
         <TextView
-            android:id="@+id/tv_max_temp"
+            android:id="@+id/tv_temp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{weatherViewModel.currentTemperature}"
@@ -68,12 +80,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:drawableStartCompat="@drawable/ic_drop"
-            android:text="@{weatherViewModel.currentHumidity}"
+            android:text="@{@string/humidity_value(weatherViewModel.currentHumidity)}"
             android:textSize="@dimen/text_large"
             app:drawableTint="@color/blue"
             app:layout_constraintBottom_toBottomOf="@id/iv_icon"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/tv_max_temp"
+            app:layout_constraintStart_toEndOf="@id/tv_temp"
             app:layout_constraintTop_toTopOf="@id/iv_icon"
             tools:text="25 %" />
 

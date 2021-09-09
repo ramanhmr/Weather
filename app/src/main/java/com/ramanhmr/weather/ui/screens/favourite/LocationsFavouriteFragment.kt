@@ -1,0 +1,125 @@
+package com.ramanhmr.weather.ui.screens.favourite
+
+import android.Manifest
+import android.content.Context
+import android.content.pm.PackageManager
+import android.location.LocationManager
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.res.ResourcesCompat
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
+import com.ramanhmr.weather.R
+import com.ramanhmr.weather.databinding.FragmentLocationsFavouriteBinding
+import com.ramanhmr.weather.ui.MainActivity
+import org.koin.android.viewmodel.ext.android.viewModel
+
+class LocationsFavouriteFragment : Fragment() {
+    private lateinit var binding: FragmentLocationsFavouriteBinding
+    private val viewModel: LocationsFavouriteViewModel by viewModel()
+    private lateinit var inputManager: InputMethodManager
+    private lateinit var locationManager: LocationManager
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentLocationsFavouriteBinding.inflate(layoutInflater)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        checkInternetForViewModel()
+        viewModel.updateWeather()
+        inputManager =
+            (requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
+        locationManager =
+            (requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager)
+        val divider = DividerItemDecoration(context, DividerItemDecoration.VERTICAL).apply {
+            setDrawable(ResourcesCompat.getDrawable(resources, R.drawable.list_divider, null)!!)
+        }
+        val adapter = LocationsWeatherAdapter()
+        with(binding) {
+            rvFavouriteList.addItemDecoration(divider)
+            rvFavouriteList.adapter = adapter
+            etCityName.setOnEditorActionListener { _, actionId, _ ->
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    viewModel.checkCityAndCall(
+                        etCityName.text.toString(),
+                        { toWeather(it) },
+                        { cityNotFound(it) }
+                    )
+                    etCityName.text.clear()
+                    inputManager.hideSoftInputFromWindow(
+                        requireActivity().currentFocus!!.windowToken,
+                        InputMethodManager.HIDE_NOT_ALWAYS
+                    )
+                    return@setOnEditorActionListener true
+                } else return@setOnEditorActionListener false
+            }
+            btnGo.setOnClickListener {
+                etCityName.onEditorAction(EditorInfo.IME_ACTION_DONE)
+            }
+            btnGetLocation.setOnClickListener {
+                toWeatherWithLocation()
+            }
+        }
+        viewModel.cityWeatherLiveData.observe(viewLifecycleOwner, {
+            adapter.submitList(it)
+        })
+
+        super.onViewCreated(view, savedInstanceState)
+    }
+
+    fun toWeatherWithLocation() {
+        if (ActivityCompat.checkSelfPermission(
+                requireActivity(),
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+                ?.let { location ->
+                    toWeather(
+                        location.latitude.toFloat(),
+                        location.longitude.toFloat()
+                    )
+                }
+
+        } else {
+            (requireActivity() as? MainActivity)?.requestLocationPermission()
+        }
+    }
+
+    private fun checkInternetForViewModel() {
+        viewModel.hasInternet = (requireActivity() as? MainActivity)?.hasInternet() ?: false
+    }
+
+    private fun toWeather(lat: Float, lon: Float) {
+        findNavController().navigate(
+            LocationsFavouriteFragmentDirections.toWeatherByCoord(
+                lat,
+                lon
+            )
+        )
+    }
+
+    private fun toWeather(cityName: String) {
+        findNavController().navigate(LocationsFavouriteFragmentDirections.toWeatherByName(cityName))
+    }
+
+    private fun cityNotFound(cityName: String) {
+        Toast.makeText(
+            context,
+            String.format(resources.getString(R.string.city_not_found), cityName),
+            Toast.LENGTH_SHORT
+        ).show()
+    }
+}

@@ -1,4 +1,4 @@
-package com.ramanhmr.weather.ui.adapters
+package com.ramanhmr.weather.ui.screens.weather
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -21,7 +21,8 @@ class ForecastWeatherAdapter :
                 parent,
                 false
             ),
-            SimpleDateFormat(parent.context.getString(R.string.day_time), Locale.getDefault())
+            SimpleDateFormat(parent.context.getString(R.string.day_time), Locale.getDefault()),
+            parent.context.getString(R.string.humidity_value)
         )
 
     override fun onBindViewHolder(holder: ForecastWeatherViewHolder, position: Int) {
@@ -30,7 +31,8 @@ class ForecastWeatherAdapter :
 
     class ForecastWeatherViewHolder(
         private val binding: ItemForecastWeatherBinding,
-        private val dateFormat: SimpleDateFormat
+        private val dateFormat: SimpleDateFormat,
+        private val humidityString: String
     ) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(weatherItem: Weather) {
@@ -39,7 +41,7 @@ class ForecastWeatherAdapter :
                 tvDate.text = dateFormat.format(weatherItem.date)
                 tvMaxTemp.text = ConversionUtils.tempToString(weatherItem.maxTemperature)
                 tvMinTemp.text = ConversionUtils.tempToString(weatherItem.minTemperature)
-                tvHumidity.text = "${weatherItem.humidity}%"
+                tvHumidity.text = String.format(humidityString, weatherItem.humidity)
             }
         }
     }

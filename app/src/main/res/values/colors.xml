@@ -13,4 +13,6 @@
     <color name="sand_yellow">#fff9c4</color>
     <color name="sand_dark">#cbc693</color>
     <color name="sand_light">#fffff7</color>
+    <color name="moon">#CACACA</color>
+    <color name="gold">#ffd700</color>
 </resources>

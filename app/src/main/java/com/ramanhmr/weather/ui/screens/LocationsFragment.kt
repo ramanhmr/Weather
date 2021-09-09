@@ -1,4 +1,4 @@
-package com.ramanhmr.weather.ui.fragments
+package com.ramanhmr.weather.ui.screens
 
 import androidx.fragment.app.Fragment
 

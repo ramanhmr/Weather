@@ -21,8 +21,8 @@ data class WeatherForecastResponseEntity(
     )
 
     data class Coord(
-        @SerializedName("lat") val lat: Double,
-        @SerializedName("lon") val lon: Double
+        @SerializedName("lat") val lat: Float,
+        @SerializedName("lon") val lon: Float
     )
 
     data class ListInResponse(
