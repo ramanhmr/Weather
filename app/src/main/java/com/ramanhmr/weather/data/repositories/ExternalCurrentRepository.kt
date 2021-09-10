@@ -15,15 +15,15 @@ class ExternalCurrentRepository(private val weatherApi: WeatherApi) : ExternalWe
         weatherApi.getCurrentByCity(cityName).body()?.toWeather()
 
     override suspend fun getCurrentByCityCountry(cityName: String, countryCode: String): Weather? =
-        weatherApi.getCurrentByCityCountry(cityName, countryCode).body()?.toWeather()
+        weatherApi.getCurrentByCity("$cityName,$countryCode").body()?.toWeather()
 
     override suspend fun getCurrentByCoord(latitude: Float, longitude: Float): Weather? =
         weatherApi.getCurrentByCoord(latitude, longitude).body()?.toWeather()
 
     private fun WeatherCurrentResponseEntity.toWeather() =
         Weather(
-            this.name,
-            this.sys.country,
+            this.name ?: "",
+            this.sys.country ?: "",
             Date(this.dt.toLong() * 1000),
             this.main.temp,
             this.main.tempMax,

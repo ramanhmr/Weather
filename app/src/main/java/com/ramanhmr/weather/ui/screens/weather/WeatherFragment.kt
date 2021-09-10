@@ -34,11 +34,11 @@ class WeatherFragment : Fragment() {
         checkInternetForViewModel()
         val args: WeatherFragmentArgs by navArgs()
         when (args.actionType) {
-            1 -> {
+            BY_NAME -> {
 
                 viewModel.getCityDataExternal(args.cityName)
             }
-            2 -> {
+            BY_COORD -> {
                 viewModel.setCoord(args.lat, args.lon)
             }
         }
@@ -58,21 +58,25 @@ class WeatherFragment : Fragment() {
                 findNavController().navigate(WeatherFragmentDirections.toLocationsFavourite())
             }
             ivFavourite.setOnClickListener {
-                viewModel.checkIsFavourite(
-                    {
-                        viewModel.removeFavourite()
-                        favouriteFalse()
-                    },
-                    {
-                        viewModel.addFavourite()
-                        favouriteTrue()
-                    }
-                )
+                if (viewModel.city.value != "") {
+                    viewModel.checkIsFavourite(
+                        {
+                            viewModel.removeFavourite()
+                            favouriteFalse()
+                        },
+                        {
+                            viewModel.addFavourite()
+                            favouriteTrue()
+                        }
+                    )
+                }
             }
         }
         viewModel.forecastWeather.observe(viewLifecycleOwner, {
             adapter.submitList(it)
-            viewModel.checkIsFavourite({ favouriteTrue() }, { favouriteFalse() })
+            if (it.isNotEmpty() && it[0].city != "") {
+                viewModel.checkIsFavourite({ favouriteTrue() }, { favouriteFalse() })
+            }
         })
 
         super.onViewCreated(view, savedInstanceState)

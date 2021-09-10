@@ -17,7 +17,7 @@ class ExternalForecastRepository(private val weatherApi: WeatherApi) :
         cityName: String,
         countryCode: String
     ): List<Weather>? =
-        weatherApi.getForecastByCityCountry(cityName, countryCode).body()?.toWeatherList()
+        weatherApi.getForecastByCity("$cityName, $countryCode").body()?.toWeatherList()
 
     override suspend fun getForecastByCoord(latitude: Float, longitude: Float): List<Weather>? =
         weatherApi.getForecastByCoord(latitude, longitude).body()?.toWeatherList()
@@ -29,8 +29,8 @@ class ExternalForecastRepository(private val weatherApi: WeatherApi) :
             if (it.dt * 1000L > currentTime)
                 forecastList.add(
                     Weather(
-                        this.city.name,
-                        this.city.country,
+                        this.city.name ?: "",
+                        this.city.country ?: "",
                         Date(it.dt * 1000L),
                         it.main.temp,
                         it.main.tempMax,

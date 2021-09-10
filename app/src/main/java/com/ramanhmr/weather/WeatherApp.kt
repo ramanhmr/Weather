@@ -15,7 +15,7 @@ import com.ramanhmr.weather.data.interfaces.location.FavouriteLocationsItemSourc
 import com.ramanhmr.weather.data.interfaces.location.FavouriteLocationsListSource
 import com.ramanhmr.weather.data.repositories.*
 import com.ramanhmr.weather.data.restApi.WeatherApiService
-import com.ramanhmr.weather.ui.screens.favourite.LocationsFavouriteViewModel
+import com.ramanhmr.weather.ui.screens.locations.LocationsFavouriteViewModel
 import com.ramanhmr.weather.ui.screens.weather.WeatherViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel

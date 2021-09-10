@@ -16,7 +16,7 @@ data class WeatherCurrentResponseEntity(
     @SerializedName("sys") val sys: Sys,
     @SerializedName("timezone") val timezone: Int,
     @SerializedName("id") val id: Int,
-    @SerializedName("name") val name: String,
+    @SerializedName("name") val name: String?,
     @SerializedName("cod") val cod: Int
 ) {
     data class Coord(
@@ -66,7 +66,7 @@ data class WeatherCurrentResponseEntity(
         @SerializedName("type") val type: Int,
         @SerializedName("id") val id: Int,
         @SerializedName("message") val message: Double,
-        @SerializedName("country") val country: String,
+        @SerializedName("country") val country: String?,
         @SerializedName("sunrise") val sunrise: Long,
         @SerializedName("sunset") val sunset: Long
     )

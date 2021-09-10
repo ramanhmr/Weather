@@ -28,8 +28,6 @@ class WeatherViewModel(
     private val cityItemSource: FavouriteLocationsItemSource
 ) : ViewModel() {
     val city: MutableLiveData<String> = MutableLiveData()
-    val currentWeather: LiveData<Weather>
-        get() = _currentWeather
     val forecastWeather: LiveData<List<Weather>>
         get() = _forecastWeather
 
@@ -41,9 +39,9 @@ class WeatherViewModel(
 
     var hasInternet = false
 
+    private val currentWeather = MutableLiveData<Weather>()
     private val _city: MutableLiveData<String> by lazy { MutableLiveData() }
     private val _coord: MutableLiveData<Pair<Float, Float>> by lazy { MutableLiveData() }
-    private val _currentWeather = MutableLiveData<Weather>()
     private val _forecastWeather = MutableLiveData<List<Weather>>()
     private val currentWeatherObserver = Observer<Weather> {
         updateTime.set(SimpleDateFormat("HH:mm dd.MM", Locale.getDefault()).format(it.date))
@@ -141,7 +139,7 @@ class WeatherViewModel(
     private suspend fun updateCurrentWeatherByNameExternal(): Boolean {
         val current = currentExternalSource.getCurrentByName(city.value ?: _city.value!!)
         return if (current != null) {
-            _currentWeather.postValue(current!!)
+            currentWeather.postValue(current!!)
             currentLocalSource.saveCurrent(current)
             true
         } else false
@@ -159,7 +157,7 @@ class WeatherViewModel(
     private suspend fun updateCurrentWeatherByNameLocal(): Boolean {
         val current = currentLocalSource.getCurrentByName(city.value ?: _city.value!!)
         return if (current != null) {
-            _currentWeather.postValue(current!!)
+            currentWeather.postValue(current!!)
             true
         } else false
     }
@@ -180,7 +178,7 @@ class WeatherViewModel(
     }
 
     private suspend fun updateCurrentWeatherByCoord() {
-        _currentWeather.postValue(
+        currentWeather.postValue(
             currentExternalSource.getCurrentByCoord(_coord.value!!.first, _coord.value!!.second)
         )
     }

@@ -11,9 +11,9 @@ data class WeatherForecastResponseEntity(
 ) {
     data class City(
         @SerializedName("id") val id: Int,
-        @SerializedName("name") val name: String,
+        @SerializedName("name") val name: String?,
         @SerializedName("coord") val coord: Coord,
-        @SerializedName("country") val country: String,
+        @SerializedName("country") val country: String?,
         @SerializedName("population") val population: Int,
         @SerializedName("timezone") val timezone: Int,
         @SerializedName("sunrise") val sunrise: Int,

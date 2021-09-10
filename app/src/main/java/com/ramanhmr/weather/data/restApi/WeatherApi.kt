@@ -15,12 +15,6 @@ interface WeatherApi {
     ): Response<WeatherForecastResponseEntity>
 
     @GET("/data/2.5/forecast?appid=${BuildConfig.WEATHER_API_KEY}&units=${WeatherApiService.UNITS_METRIC}")
-    suspend fun getForecastByCityCountry(
-        @Query("q") cityName: String,
-        @Query("q") countryCode: String
-    ): Response<WeatherForecastResponseEntity>
-
-    @GET("/data/2.5/forecast?appid=${BuildConfig.WEATHER_API_KEY}&units=${WeatherApiService.UNITS_METRIC}")
     suspend fun getForecastByCoord(
         @Query("lat") latitude: Float,
         @Query("lon") longitude: Float
@@ -30,12 +24,6 @@ interface WeatherApi {
     @GET("/data/2.5/weather?appid=${BuildConfig.WEATHER_API_KEY}&units=${WeatherApiService.UNITS_METRIC}")
     suspend fun getCurrentByCity(
         @Query("q") cityName: String
-    ): Response<WeatherCurrentResponseEntity>
-
-    @GET("/data/2.5/weather?appid=${BuildConfig.WEATHER_API_KEY}&units=${WeatherApiService.UNITS_METRIC}")
-    suspend fun getCurrentByCityCountry(
-        @Query("q") cityName: String,
-        @Query("q") countryCode: String
     ): Response<WeatherCurrentResponseEntity>
 
     @GET("/data/2.5/weather?appid=${BuildConfig.WEATHER_API_KEY}&units=${WeatherApiService.UNITS_METRIC}")

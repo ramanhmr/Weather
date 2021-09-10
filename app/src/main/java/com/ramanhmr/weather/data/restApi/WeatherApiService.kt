@@ -6,12 +6,14 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object WeatherApiService {
-    private const val BASE_URL = "https://api.openweathermap.org"
+    private const val BASE_WEATHER_URL = "https://api.openweathermap.org"
 
     const val UNITS_METRIC = "metric"
 
-    private fun getRetrofit() = Retrofit.Builder()
-        .baseUrl(BASE_URL)
+    fun getWeatherService(): WeatherApi = getWeatherRetrofit().create(WeatherApi::class.java)
+
+    private fun getWeatherRetrofit() = Retrofit.Builder()
+        .baseUrl(BASE_WEATHER_URL)
         .addConverterFactory(GsonConverterFactory.create())
         .client(
             OkHttpClient.Builder()
@@ -21,6 +23,4 @@ object WeatherApiService {
                 .build()
         )
         .build()
-
-    fun getWeatherService(): WeatherApi = getRetrofit().create(WeatherApi::class.java)
 }

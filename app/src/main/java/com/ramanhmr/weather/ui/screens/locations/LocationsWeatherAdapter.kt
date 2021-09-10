@@ -1,4 +1,4 @@
-package com.ramanhmr.weather.ui.screens.favourite
+package com.ramanhmr.weather.ui.screens.locations
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

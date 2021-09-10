@@ -9,11 +9,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.navigation.fragment.NavHostFragment
 import com.ramanhmr.weather.R
-import com.ramanhmr.weather.ui.screens.favourite.LocationsFavouriteFragment
+import com.ramanhmr.weather.ui.screens.locations.LocationsFavouriteFragment
 
 class MainActivity : AppCompatActivity() {
     private val navHostFragment by lazy { (supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment) }
-    private val navController by lazy { navHostFragment.navController }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -1,15 +1,18 @@
 <resources>
     <string name="app_name">Weather</string>
-    <string name="all_cities">All cities</string>
+    <string name="map">Map</string>
     <string name="my_location">My location</string>
     <string name="add_to_favorites">Add to favorites</string>
     <string name="remove_from_favorites">Remove from favorites</string>
     <string name="go">Go</string>
     <string name="city_name">City name</string>
+    <string name="this_location">This location</string>
 
     <string name="update_time">Update time: %s</string>
     <string name="day_time">EEEE, dd.MM - HH:mm</string>
     <string name="humidity_value">%d%%</string>
     <string name="city_country">%s, %s</string>
     <string name="city_not_found">City %s not found</string>
+
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyDjqR4uCLLZEUBQJn03bZK-JB6YsypahHo</string>
 </resources>

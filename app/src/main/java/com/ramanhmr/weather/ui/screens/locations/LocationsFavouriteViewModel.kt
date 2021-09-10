@@ -1,4 +1,4 @@
-package com.ramanhmr.weather.ui.screens.favourite
+package com.ramanhmr.weather.ui.screens.locations
 
 import androidx.lifecycle.*
 import com.ramanhmr.weather.data.entities.City
@@ -57,14 +57,14 @@ class LocationsFavouriteViewModel(
     private suspend fun listCurrentCitiesWeather(cities: List<City>): List<Weather> {
         val result = mutableListOf<Weather>()
         if (hasInternet) {
-            cities.map { city ->
+            cities.forEach { city ->
                 currentExternalSource.getCurrentByCityCountry(city.name, city.countryCode)?.let {
                     result.add(it)
                 }
             }
             currentLocalSource.saveCurrent(result)
         } else {
-            cities.map { city ->
+            cities.forEach { city ->
                 currentLocalSource.getCurrentByCityCountry(city.name, city.countryCode)?.let {
                     result.add(it)
                 }

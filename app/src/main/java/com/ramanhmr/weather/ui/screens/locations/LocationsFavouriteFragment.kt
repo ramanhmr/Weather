@@ -1,4 +1,4 @@
-package com.ramanhmr.weather.ui.screens.favourite
+package com.ramanhmr.weather.ui.screens.locations
 
 import android.Manifest
 import android.content.Context
@@ -68,37 +68,18 @@ class LocationsFavouriteFragment : Fragment() {
             btnGo.setOnClickListener {
                 etCityName.onEditorAction(EditorInfo.IME_ACTION_DONE)
             }
-            btnGetLocation.setOnClickListener {
+            btnThisLocation.setOnClickListener {
                 toWeatherWithLocation()
+            }
+            btnMap.setOnClickListener {
+                toMap()
             }
         }
         viewModel.cityWeatherLiveData.observe(viewLifecycleOwner, {
-            adapter.submitList(it)
+            adapter.submitList(it.sortedBy { weather -> weather.city })
         })
 
         super.onViewCreated(view, savedInstanceState)
-    }
-
-    fun toWeatherWithLocation() {
-        if (ActivityCompat.checkSelfPermission(
-                requireActivity(),
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
-            if ((requireActivity() as? MainActivity)?.hasInternet() == true) {
-                locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
-                    ?.let { location ->
-                        toWeather(
-                            location.latitude.toFloat(),
-                            location.longitude.toFloat()
-                        )
-                    }
-            } else {
-                Toast.makeText(context, "No Internet connection", Toast.LENGTH_SHORT).show()
-            }
-        } else {
-            (requireActivity() as? MainActivity)?.requestLocationPermission()
-        }
     }
 
     private fun checkInternetForViewModel() {
@@ -118,11 +99,44 @@ class LocationsFavouriteFragment : Fragment() {
         findNavController().navigate(LocationsFavouriteFragmentDirections.toWeatherByName(cityName))
     }
 
+    fun toWeatherWithLocation() {
+        if (ActivityCompat.checkSelfPermission(
+                requireActivity(),
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            checkInternet {
+                locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+                    ?.let { location ->
+                        toWeather(
+                            location.latitude.toFloat(),
+                            location.longitude.toFloat()
+                        )
+                    }
+            }
+        } else {
+            (requireActivity() as? MainActivity)?.requestLocationPermission()
+        }
+    }
+
+    private fun toMap() {
+        checkInternet {
+            findNavController().navigate(LocationsFavouriteFragmentDirections.toMap())
+        }
+    }
+
     private fun cityNotFound(cityName: String) {
         Toast.makeText(
             context,
             String.format(resources.getString(R.string.city_not_found), cityName),
             Toast.LENGTH_SHORT
         ).show()
+    }
+
+    private fun checkInternet(action: () -> Unit) {
+        if ((requireActivity() as? MainActivity)?.hasInternet() == true) action()
+        else {
+            Toast.makeText(context, "No Internet connection", Toast.LENGTH_SHORT).show()
+        }
     }
 }

@@ -19,11 +19,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/btn_go" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_go"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:text="@string/go"
+        app:strokeColor="@color/blue"
+        app:strokeWidth="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -34,31 +37,39 @@
         android:layout_marginBottom="8dp"
         android:orientation="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toTopOf="@id/btn_all_cities"
+        app:layout_constraintBottom_toTopOf="@id/btn_this_location"
         app:layout_constraintTop_toBottomOf="@id/btn_go"
         tools:listitem="@layout/item_location_favourite" />
 
-    <Button
-        android:id="@+id/btn_all_cities"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:text="@string/all_cities"
-        app:drawableLeftCompat="@drawable/ic_globe"
-        app:drawableTint="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/btn_get_location"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/btn_get_location"
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_this_location"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/my_location"
-        app:drawableRightCompat="@drawable/ic_my_location"
-        app:drawableTint="@color/black"
-        app:layout_constraintBottom_toBottomOf="@id/btn_all_cities"
+        app:icon="@drawable/ic_my_location"
+        app:strokeColor="@color/blue"
+        app:strokeWidth="4dp"
+        app:iconGravity="end"
+        app:iconSize="@dimen/icon_small"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/btn_all_cities" />
+        app:layout_constraintStart_toEndOf="@id/btn_map" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_map"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/map"
+        app:strokeColor="@color/blue"
+        app:strokeWidth="4dp"
+        app:icon="@drawable/ic_globe"
+        app:iconSize="@dimen/icon_small"
+        app:layout_constraintTop_toTopOf="@id/btn_this_location"
+        app:layout_constraintBottom_toBottomOf="@id/btn_this_location"
+        app:layout_constraintEnd_toStartOf="@id/btn_this_location"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
