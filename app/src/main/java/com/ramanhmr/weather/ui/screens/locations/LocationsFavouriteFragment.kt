@@ -106,13 +106,17 @@ class LocationsFavouriteFragment : Fragment() {
             ) == PackageManager.PERMISSION_GRANTED
         ) {
             checkInternet {
-                locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
-                    ?.let { location ->
-                        toWeather(
-                            location.latitude.toFloat(),
-                            location.longitude.toFloat()
-                        )
-                    }
+                if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+                    locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+                        ?.let { location ->
+                            toWeather(
+                                location.latitude.toFloat(),
+                                location.longitude.toFloat()
+                            )
+                        }
+                } else {
+                    Toast.makeText(context, "Location is disabled", Toast.LENGTH_SHORT).show()
+                }
             }
         } else {
             (requireActivity() as? MainActivity)?.requestLocationPermission()
